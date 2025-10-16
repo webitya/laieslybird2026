@@ -3,6 +3,7 @@ import Link from "next/link"
 import Script from "next/script"
 import Navbar from "../components/navigation/navbar"
 import Logo from "@/components/navigation/logo"
+import Footer from "@/components/navigation/footer"
 
 export const dynamic = "force-dynamic"
 
@@ -69,19 +70,7 @@ export default function RootLayout({ children }) {
         <main className="mx-auto max-w-6xl px-4 py-10">{children}</main>
 
         {/* Footer */}
-        <footer className="mt-16 border-t border-purple-200 bg-white">
-          <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-gray-600">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-pretty">© {new Date().getFullYear()} LaieslyBird. All rights reserved.</p>
-              <p>
-                Contact:{" "}
-                <a className="text-purple-700 hover:underline" href="mailto:laieslybird@gmail.com">
-                  laieslybird@gmail.com
-                </a>
-              </p>
-            </div>
-          </div>
-        </footer>
+    <Footer/>
 
         {/* JSON-LD for Organization & WebSite */}
         <Script
