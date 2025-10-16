@@ -2,16 +2,18 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded"
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded"
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
 import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded"
 import NavbarDrawer from "./navbarDrawer"
 import SubscribeModal from "./subscribe-modal"
+import Logo from "./logo"
 
 export default function Navbar() {
   const router = useRouter()
+  const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const onClose = () => setOpen(false)
 
@@ -26,6 +28,7 @@ export default function Navbar() {
   const listRef = useRef(null)
   const abortRef = useRef(null)
 
+  // Close drawer on navigation or resize
   useEffect(() => {
     const handler = () => setOpen(false)
     const onResize = () => {
@@ -52,6 +55,7 @@ export default function Navbar() {
     }
   }, [])
 
+  // Search effect
   useEffect(() => {
     if (!searchOpen) return
     if (!q || q.trim().length < 2) {
@@ -68,9 +72,7 @@ export default function Navbar() {
         const data = await res.json()
         setResults(Array.isArray(data.results) ? data.results : [])
       } catch (err) {
-        if (err?.name !== "AbortError") {
-          console.log("[v0] search error:", err?.message || err)
-        }
+        if (err?.name !== "AbortError") console.log("search error:", err?.message || err)
       } finally {
         setLoading(false)
       }
@@ -81,6 +83,7 @@ export default function Navbar() {
     }
   }, [q, searchOpen])
 
+  // Close search on ESC
   useEffect(() => {
     if (!searchOpen) return
     const onEsc = (e) => {
@@ -127,75 +130,104 @@ export default function Navbar() {
     return out
   }
 
+  // Desktop navigation items
+  const navItems = [
+    { href: "/about", label: "About" },
+    { href: "/careers", label: "Careers" },
+    { href: "/videos", label: "Videos" },
+    { href: "/books", label: "Books (PDF)" },
+    { href: "/case-studies", label: "Case Studies" },
+    { href: "/whitepapers", label: "Whitepapers" },
+    { href: "/blog", label: "Blog" },
+    { href: "/contact", label: "Contact" },
+  ]
+
   return (
     <>
-      <div className="flex w-full items-center justify-between">
-        {/* Brand */}
-        {/* Brand rendering is now handled by layout */}
-
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-5 md:flex">
-          {[
-            { href: "/about", label: "About" },
-            { href: "/careers", label: "Careers" },
-            { href: "/videos", label: "Videos" },
-            { href: "/books", label: "Books (PDF)" },
-            { href: "/case-studies", label: "Case Studies" },
-            { href: "/whitepapers", label: "Whitepapers" },
-            { href: "/blog", label: "Blog" },
-            { href: "/contact", label: "Contact" },
-          ].map((item) => (
-            <Link
-              key={item.href}
-              className="text-sm font-medium text-gray-700 underline-offset-4 hover:text-purple-700 hover:underline"
-              href={item.href}
-            >
-              {item.label}
+      {/* Navbar */}
+      <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-purple-100 shadow-sm">
+        <div className="mx-auto flex  items-center justify-between px-4 py-3 md:py-4 transition-all duration-300">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center space-x-2 group">
+              <Logo className="h-7 w-7 transition-transform duration-300 group-hover:scale-110" />
             </Link>
-          ))}
-          <button
-            onClick={() => setSubscribeOpen(true)}
-            className="rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-purple-700"
-          >
-            Subscribe
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setSearchOpen(true)
-              setTimeout(() => inputRef.current?.focus(), 0)
-            }}
-            className="inline-flex items-center gap-1 rounded-md border border-purple-200 px-2.5 py-1.5 text-sm text-purple-700 hover:bg-purple-50"
-            aria-label="Search site"
-          >
-            <SearchRoundedIcon fontSize="small" />
-            <span className="hidden sm:inline">Search</span>
-            <span className="ml-2 hidden rounded border border-purple-200 px-1.5 py-0.5 text-[10px] text-purple-500 md:inline">
-              /
-            </span>
-          </button>
-          <Link href="/admin/login" className="text-sm font-semibold text-purple-700 hover:text-purple-900">
-            Admin
-          </Link>
-        </nav>
+          </div>
 
-        {/* Mobile trigger */}
-        <button
-          aria-label="Open navigation"
-          onClick={() => setOpen(true)}
-          className="inline-flex items-center rounded-md p-2 text-purple-700 hover:bg-purple-50 md:hidden"
-        >
-          <MenuRoundedIcon />
-        </button>
-      </div>
+          {/* Desktop Navigation */}
+          <nav className="hidden items-center gap-5 md:flex bg-white/30 backdrop-blur-sm rounded-full px-5 py-2 border border-purple-100 shadow-sm">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`text-sm font-medium transition-all underline-offset-4 ${
+                    isActive
+                      ? "text-purple-700 font-semibold bg-gradient-to-r from-purple-100 to-indigo-100 px-3 py-1 rounded-full shadow-sm"
+                      : "text-gray-700 hover:text-purple-700"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
 
-      {/* Drawer for mobile */}
+            {/* Subscribe button */}
+            <button
+              onClick={() => setSubscribeOpen(true)}
+              className="rounded-full bg-purple-600 px-4 py-1.5 text-sm font-semibold text-white shadow-md hover:bg-purple-700 transition-colors"
+            >
+              Subscribe
+            </button>
+
+            {/* Search button */}
+            <button
+              type="button"
+              onClick={() => {
+                setSearchOpen(true)
+                setTimeout(() => inputRef.current?.focus(), 0)
+              }}
+              className="inline-flex items-center gap-1 rounded-full border border-purple-200 px-3 py-1.5 text-sm text-purple-700 hover:bg-purple-50 transition-colors"
+              aria-label="Search site"
+            >
+              <SearchRoundedIcon fontSize="small" />
+              <span className="hidden sm:inline">Search</span>
+              <span className="ml-2 hidden rounded border border-purple-200 px-1.5 py-0.5 text-[10px] text-purple-500 md:inline">
+                /
+              </span>
+            </button>
+
+            {/* Admin link */}
+            <Link
+              href="/admin/login"
+              className={`text-sm font-semibold transition-colors ${
+                pathname === "/admin/login"
+                  ? "text-purple-700 underline"
+                  : "text-purple-700 hover:text-purple-900"
+              }`}
+            >
+              Admin
+            </Link>
+          </nav>
+
+          {/* Mobile menu trigger */}
+          <button
+            aria-label="Open navigation"
+            onClick={() => setOpen(true)}
+            className="inline-flex items-center rounded-md p-2 text-purple-700 hover:bg-purple-50 md:hidden transition"
+          >
+            <MenuRoundedIcon />
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Drawer */}
       <NavbarDrawer open={open} onClose={onClose} />
 
-      {/* Inline expanding search overlay (replaces SearchModal) */}
+      {/* Search overlay */}
       {searchOpen && (
         <div className="fixed inset-x-0 top-0 z-50 mx-auto max-w-6xl px-4 pt-2 md:pt-3">
-          {/* Backdrop to overlay the navigation while searching */}
           <div
             className="fixed inset-0 z-[-1] bg-black/40 backdrop-blur-sm"
             onClick={() => {
@@ -205,7 +237,7 @@ export default function Navbar() {
             }}
             aria-hidden="true"
           />
-          <div className="rounded-xl border border-purple-200 bg-white shadow-2xl">
+          <div className="rounded-xl border border-purple-200 bg-white shadow-2xl animate-fadeIn">
             <div className="flex items-center gap-2 px-3 py-2">
               <SearchRoundedIcon className="text-purple-600" />
               <input
@@ -265,10 +297,9 @@ export default function Navbar() {
                         setQ("")
                         setResults([])
                       }}
-                      className={[
-                        "flex items-start gap-3 px-4 py-3 hover:bg-purple-50 focus:bg-purple-50",
-                        idx === active ? "bg-purple-50" : "",
-                      ].join(" ")}
+                      className={`flex items-start gap-3 px-4 py-3 hover:bg-purple-50 focus:bg-purple-50 transition-colors ${
+                        idx === active ? "bg-purple-50" : ""
+                      }`}
                     >
                       <span className="mt-0.5 inline-flex shrink-0 select-none rounded-md bg-purple-100 px-2 py-0.5 text-[10px] font-semibold leading-5 text-purple-700">
                         {r.type}
@@ -295,7 +326,6 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* Subscribe modal remains */}
       <SubscribeModal open={subscribeOpen} onClose={() => setSubscribeOpen(false)} />
     </>
   )

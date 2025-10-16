@@ -2,6 +2,7 @@ import "./globals.css"
 import Link from "next/link"
 import Script from "next/script"
 import Navbar from "../components/navigation/navbar"
+import Logo from "@/components/navigation/logo"
 
 export const dynamic = "force-dynamic"
 
@@ -60,18 +61,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="min-h-screen bg-purple-50 text-gray-900 antialiased">
-        {/* Header */}
-        <header className="sticky top-0 z-50 border-b border-purple-200 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-          <div className="mx-auto max-w-6xl px-4">
-            <div className="flex h-16 items-center justify-between">
-              <Link href="/" className="flex items-center gap-2">
-                <img src="/laieslybird-logo-mark.jpg" alt="LaieslyBird logo" className="h-8 w-8 rounded-md" />
-                <span className="text-lg font-semibold text-purple-700">LaieslyBird</span>
-              </Link>
+
               <Navbar />
-            </div>
-          </div>
-        </header>
+
+    
 
         <main className="mx-auto max-w-6xl px-4 py-10">{children}</main>
 
