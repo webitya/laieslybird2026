@@ -1,6 +1,7 @@
 import "./globals.css"
 import Link from "next/link"
 import Script from "next/script"
+import Navbar from "../components/navigation/navbar"
 
 export const dynamic = "force-dynamic"
 
@@ -30,7 +31,6 @@ export const metadata = {
     description: "Roadmaps, tutorials, PDFs, case studies, whitepapers, and blogs for CEOs & Co‑Founders.",
   },
   robots: { index: true, follow: true },
-    generator: 'v0.app'
 }
 
 export default function RootLayout({ children }) {
@@ -61,42 +61,14 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="min-h-screen bg-purple-50 text-gray-900 antialiased">
         {/* Header */}
-        <header className="border-b border-purple-200 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+        <header className="sticky top-0 z-50 border-b border-purple-200 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/60">
           <div className="mx-auto max-w-6xl px-4">
             <div className="flex h-16 items-center justify-between">
               <Link href="/" className="flex items-center gap-2">
-                <img src="/placeholder-logo.svg" alt="LaieslyBird logo" className="h-8 w-8" />
+                <img src="/laieslybird-logo-mark.jpg" alt="LaieslyBird logo" className="h-8 w-8 rounded-md" />
                 <span className="text-lg font-semibold text-purple-700">LaieslyBird</span>
               </Link>
-              <nav className="flex items-center gap-4">
-                <Link className="text-sm font-medium text-gray-700 hover:text-purple-700" href="/about">
-                  About
-                </Link>
-                <Link className="text-sm font-medium text-gray-700 hover:text-purple-700" href="/careers">
-                  Careers
-                </Link>
-                <Link className="text-sm font-medium text-gray-700 hover:text-purple-700" href="/contact">
-                  Contact
-                </Link>
-                <Link className="text-sm font-medium text-gray-700 hover:text-purple-700" href="/videos">
-                  Videos
-                </Link>
-                <Link className="text-sm font-medium text-gray-700 hover:text-purple-700" href="/books">
-                  Books (PDF)
-                </Link>
-                <Link className="text-sm font-medium text-gray-700 hover:text-purple-700" href="/case-studies">
-                  Case Studies
-                </Link>
-                <Link className="text-sm font-medium text-gray-700 hover:text-purple-700" href="/whitepapers">
-                  Whitepapers
-                </Link>
-                <Link className="text-sm font-medium text-gray-700 hover:text-purple-700" href="/blog">
-                  Blog
-                </Link>
-                <Link className="text-sm font-medium text-purple-700 hover:text-purple-900" href="/admin/login">
-                  Admin
-                </Link>
-              </nav>
+              <Navbar />
             </div>
           </div>
         </header>

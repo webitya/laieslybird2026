@@ -13,7 +13,7 @@ export async function generateMetadata() {
     title,
     description,
     alternates: { canonical: "/blog" },
-    openGraph: { type: "blog", url: `${base}/blog`, title, description },
+    openGraph: { type: "website", url: `${base}/blog`, title, description },
     twitter: { card: "summary_large_image", title, description },
   }
 }
@@ -23,7 +23,19 @@ export default async function Blog({ searchParams }) {
 
   const posts = BLOG_POSTS.filter((p) => {
     if (!q) return true
-    const hay = `${p.title} ${p.excerpt}`.toLowerCase()
+    const tags = Array.isArray(p.tags) ? p.tags.join(" ") : ""
+    const contentText = Array.isArray(p.content)
+      ? p.content
+          .map((b) => {
+            if (b.type === "paragraph") return b.text
+            if (b.type === "bullets") return (b.items || []).join(" ")
+            if (b.type === "image") return b.alt || ""
+            if (b.links) return (b.links || []).map((l) => `${l.label} ${l.href}`).join(" ")
+            return ""
+          })
+          .join(" ")
+      : ""
+    const hay = `${p.title} ${p.excerpt || ""} ${tags} ${contentText}`.toLowerCase()
     return hay.includes(q.toLowerCase())
   })
     .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))

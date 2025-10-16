@@ -29,7 +29,17 @@ export default async function Admin() {
   const isAdmin = cookies().get("laieslybird_admin")?.value === "1"
   if (!isAdmin) redirect("/admin/login")
 
-  const { subs, contacts } = await getData()
+  let subs = []
+  let contacts = []
+  let dbHealthy = true
+  try {
+    const data = await getData()
+    subs = data.subs
+    contacts = data.contacts
+  } catch (e) {
+    dbHealthy = false
+    console.log("[v0] Admin DB error:", e?.message || e)
+  }
 
   return (
     <div className="grid gap-8">
@@ -41,6 +51,13 @@ export default async function Admin() {
           </button>
         </form>
       </div>
+
+      {!dbHealthy && (
+        <div className="rounded-md border border-yellow-300 bg-yellow-50 p-3 text-sm text-yellow-900">
+          Database not configured. Set MONGODB_URI in your environment to enable Admin analytics, CSV export, and reply
+          management.
+        </div>
+      )}
 
       <section className="grid gap-3">
         <div className="flex items-center justify-between">
@@ -72,7 +89,7 @@ export default async function Admin() {
               {subs.length === 0 && (
                 <tr>
                   <td className="px-3 py-4 text-gray-700" colSpan={3}>
-                    No subscribers yet.
+                    {dbHealthy ? "No subscribers yet." : "Unavailable: database not connected."}
                   </td>
                 </tr>
               )}
@@ -150,7 +167,7 @@ export default async function Admin() {
               {contacts.length === 0 && (
                 <tr>
                   <td className="px-3 py-4 text-gray-700" colSpan={5}>
-                    No contacts yet.
+                    {dbHealthy ? "No contacts yet." : "Unavailable: database not connected."}
                   </td>
                 </tr>
               )}

@@ -8,14 +8,24 @@ export async function POST(req) {
   const email = String(form.get("email") || "")
     .trim()
     .toLowerCase()
-  if (!email) return NextResponse.redirect(new URL("/?subscribed=0", req.url))
+  const wantsJson = (req.headers.get("accept") || "").includes("application/json")
 
-  const database = await db()
-  await database.collection("subscribers").insertOne({
-    name,
-    email,
-    createdAt: new Date(),
-  })
+  if (!email) {
+    if (wantsJson) return NextResponse.json({ ok: false, error: "missing_email" }, { status: 400 })
+    return NextResponse.redirect(new URL("/?subscribed=0", req.url))
+  }
+
+  // Guard DB insert so missing MONGODB_URI won't crash
+  try {
+    const database = await db()
+    await database.collection("subscribers").insertOne({
+      name,
+      email,
+      createdAt: new Date(),
+    })
+  } catch (e) {
+    console.warn("[LaieslyBird] subscribe db insert failed", e?.message)
+  }
 
   try {
     await sendWelcomeSubscribe({ to: email, name })
@@ -23,6 +33,7 @@ export async function POST(req) {
     console.warn("[LaieslyBird] sendWelcomeSubscribe failed", e?.message)
   }
 
+  if (wantsJson) return NextResponse.json({ ok: true })
   const res = NextResponse.redirect(new URL("/?subscribed=1", req.url))
   return res
 }
