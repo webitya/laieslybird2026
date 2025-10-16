@@ -2,7 +2,6 @@ import Script from "next/script"
 import AboutHero from "@/components/about/hero"
 import AboutValues from "@/components/about/values"
 import Timeline from "@/components/about/timeline"
-import Leadership from "@/components/about/leadership"
 
 export const dynamic = "force-dynamic"
 export const revalidate = 0
@@ -35,7 +34,7 @@ export default async function AboutPage() {
       <AboutHero />
       <AboutValues />
       <Timeline />
-      <Leadership />
+   
       <Script
         id="ld-breadcrumb-about"
         type="application/ld+json"
