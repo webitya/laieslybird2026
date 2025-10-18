@@ -2,7 +2,7 @@ import "./globals.css"
 import Link from "next/link"
 import Script from "next/script"
 import Navbar from "../components/navigation/navbar"
-import Logo from "@/components/navigation/logo"
+import VisitorTracker from "../components/visitor-tracker"
 import Footer from "@/components/navigation/footer"
 
 export const dynamic = "force-dynamic"
@@ -62,15 +62,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="min-h-screen bg-purple-50 text-gray-900 antialiased">
+        <VisitorTracker />
 
-              <Navbar />
-
-    
+        {/* Header */}
+      <Navbar/>
 
         <main className="mx-auto max-w-6xl px-4 py-10">{children}</main>
 
         {/* Footer */}
-    <Footer/>
+       <Footer/>
 
         {/* JSON-LD for Organization & WebSite */}
         <Script
