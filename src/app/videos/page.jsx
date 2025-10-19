@@ -1,88 +1,174 @@
-import { VideoLibrary } from "@mui/icons-material"
+"use client"
+
+import { useState, useMemo } from "react"
+import { VideoLibrary, GridView, ViewList } from "@mui/icons-material"
 import Script from "next/script"
 import { VIDEOS } from "@/data/videos/videos"
+import VideoSidebar from "@/components/videos/video-sidebar"
+import VideoGrid from "@/components/videos/video-grid"
+import VideoList from "@/components/videos/video-list"
+import VideoSearch from "@/components/videos/video-search"
+import VideoPagination from "@/components/videos/video-pagination"
 
-export const dynamic = "force-dynamic"
-export const revalidate = 0
-export const metadata = {
-  title: "Video Tutorials — CEO & Co‑Founder",
-  description: "Curated tutorials for CEOs and Co‑Founders with filters.",
-  alternates: { canonical: "/videos" },
-  openGraph: {
-    type: "website",
-    title: "Video Tutorials — CEO & Co‑Founder",
-    description: "Curated tutorials for CEOs and Co‑Founders with filters.",
-    url: (process.env.NEXT_PUBLIC_SITE_URL || "https://example.com") + "/videos",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Video Tutorials — CEO & Co‑Founder",
-    description: "Curated tutorials for CEOs and Co‑Founders with filters.",
-  },
-}
+export default function Videos() {
+  const [viewMode, setViewMode] = useState("grid")
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [currentPage, setCurrentPage] = useState(1)
+  const videosPerPage = 12
 
-export default async function Videos({ searchParams }) {
-  const cat = (searchParams?.category || "All").toString()
-  const items = cat === "All" ? VIDEOS : VIDEOS.filter((v) => v.category === cat)
+  const categories = useMemo(() => {
+    const categoryMap = {}
+    VIDEOS.forEach((v) => {
+      const key = `${v.course}-${v.category}`
+      if (!categoryMap[key]) {
+        categoryMap[key] = {
+          id: key,
+          name: v.category,
+          course: v.course,
+        }
+      }
+    })
+    return Object.values(categoryMap)
+  }, [])
+
+  const filteredVideos = useMemo(() => {
+    let result = VIDEOS
+
+    if (selectedCategory) {
+      result = result.filter((v) => v.category === selectedCategory)
+    }
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase()
+      result = result.filter(
+        (v) =>
+          v.title.toLowerCase().includes(q) ||
+          v.description.toLowerCase().includes(q) ||
+          v.category.toLowerCase().includes(q) ||
+          v.course.toLowerCase().includes(q) ||
+          (v.tags && v.tags.some((tag) => tag.toLowerCase().includes(q))),
+      )
+    }
+
+    return result
+  }, [selectedCategory, searchQuery])
+
+  const totalPages = Math.ceil(filteredVideos.length / videosPerPage)
+  const startIdx = (currentPage - 1) * videosPerPage
+  const paginatedVideos = filteredVideos.slice(startIdx, startIdx + videosPerPage)
+
+  const handleCategoryChange = (category) => {
+    const categoryName = category ? category.split("-").slice(1).join("-") : null
+    setSelectedCategory(categoryName)
+    setSearchQuery("")
+    setCurrentPage(1)
+  }
+
+  const handleSuggestionClick = (video) => {
+    setSelectedCategory(video.category)
+    setSearchQuery(video.title)
+    setCurrentPage(1)
+  }
+
   const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
   const videoJsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: "Video Tutorials — CEO & Co‑Founder",
     url: `${base}/videos`,
-    hasPart: items.map((v) => ({
+    hasPart: filteredVideos.map((v) => ({
       "@type": "VideoObject",
       name: v.title,
-      description: `${v.title} tutorial`,
-      thumbnailUrl: [`${base}/placeholder.svg?height=360&width=640&query=video-thumbnail`],
+      description: v.description,
+      thumbnailUrl: [v.thumbnail],
       uploadDate: new Date().toISOString(),
       embedUrl: v.url,
+      duration: v.duration,
     })),
   }
 
   return (
-    <div className="grid gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-purple-800 flex items-center gap-2">
-          <VideoLibrary /> Videos
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col gap-4">
+        <h1 className="text-3xl font-bold text-purple-800 flex items-center gap-2">
+          <VideoLibrary className="w-8 h-8" />
+          Video Tutorials
         </h1>
-        <form className="flex items-center gap-2" method="GET">
-          <label htmlFor="category" className="text-sm text-gray-700">
-            Filter
-          </label>
-          <select
-            id="category"
-            name="category"
-            defaultValue={cat}
-            className="rounded-md border border-purple-300 px-3 py-2 text-sm"
-          >
-            <option>All</option>
-            <option>CEO</option>
-            <option>Co‑Founder</option>
-          </select>
-          <button className="rounded-md bg-purple-600 px-3 py-2 text-sm text-white hover:bg-purple-700">Apply</button>
-        </form>
+        <p className="text-gray-600">
+          Curated video tutorials for CEOs, Co‑Founders, and English learners to master leadership, growth, and language
+          skills.
+        </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        {items.map((v) => (
-          <article key={v.id} className="overflow-hidden rounded-lg border border-purple-200 bg-white">
-            <div className="aspect-video">
-              <iframe
-                className="h-full w-full"
-                src={v.url}
-                title={v.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
+      {/* Search Bar */}
+      <VideoSearch
+        videos={VIDEOS}
+        onSearch={(query) => {
+          setSearchQuery(query)
+          setCurrentPage(1)
+        }}
+        searchQuery={searchQuery}
+        onSuggestionClick={handleSuggestionClick}
+      />
+
+      {/* Main Content */}
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+        {/* Sidebar */}
+        <VideoSidebar
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onCategoryChange={handleCategoryChange}
+        />
+
+        {/* Right Content */}
+        <div className="flex-1 min-w-0">
+          {/* View Toggle */}
+          <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+            <p className="text-sm text-gray-600 font-medium">
+              {filteredVideos.length} video{filteredVideos.length !== 1 ? "s" : ""} found
+              {totalPages > 1 && ` • Page ${currentPage} of ${totalPages}`}
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`p-2 rounded-lg transition-colors ${
+                  viewMode === "grid" ? "bg-purple-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+                title="Grid view"
+              >
+                <GridView className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`p-2 rounded-lg transition-colors ${
+                  viewMode === "list" ? "bg-purple-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+                title="List view"
+              >
+                <ViewList className="w-5 h-5" />
+              </button>
             </div>
-            <div className="p-4">
-              <h2 className="font-semibold text-purple-800">{v.title}</h2>
-              <p className="text-sm text-gray-600">{v.category}</p>
+          </div>
+
+          {/* Videos */}
+          {paginatedVideos.length > 0 ? (
+            <>
+              {viewMode === "grid" ? <VideoGrid videos={paginatedVideos} /> : <VideoList videos={paginatedVideos} />}
+              {totalPages > 1 && (
+                <VideoPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+              )}
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-600 mb-2">No videos found</p>
+              <p className="text-sm text-gray-500">Try adjusting your search or filters</p>
             </div>
-          </article>
-        ))}
+          )}
+        </div>
       </div>
+
       <Script
         id="ld-videos"
         type="application/ld+json"
