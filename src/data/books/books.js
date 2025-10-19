@@ -5,7 +5,7 @@ export const books = [
     title: "CEO Operating System",
     description: "A practical playbook for focus, execution, and compounding momentum.",
     coverImage: "/ceo-operating-system-purple-cover.jpg",
-    pdfUrl: "/pdfs/ceo-operating-system.pdf",
+    pdfUrl: "/pdf1.pdf",
     course: "CEO Roadmap",
     category: "CEO",
     topics: ["CEO", "Execution", "Focus"],
