@@ -45,21 +45,13 @@ export default function BookViewer({ params }) {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 grid gap-6">
-      <h1 className="text-3xl font-bold text-purple-800">{item.title}</h1>
+    <div className="">
+  
 
       {/* 👇 Client-side PDF Viewer */}
       <PDFViewer pdfUrl={item.pdfUrl} />
 
-      <div>
-        <Link
-          href={item.pdfUrl}
-          download
-          className="inline-block mt-2 text-purple-700 underline hover:text-purple-900 transition-colors"
-        >
-          Download {item.title}
-        </Link>
-      </div>
+   
 
       <Script id="ld-books-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
       <Script id="ld-book" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
