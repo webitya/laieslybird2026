@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic"
 export const revalidate = 0
 
 export async function generateMetadata() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybird.com"
   const title = "Blog — SEO‑friendly Insights"
   const description = "Articles, templates, and playbooks for CEOs & Co‑Founders."
   return {
@@ -41,7 +41,7 @@ export default async function Blog({ searchParams }) {
     .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
     .slice(0, 20)
 
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybird.com"
   const blogJsonLd = {
     "@context": "https://schema.org",
     "@type": "Blog",

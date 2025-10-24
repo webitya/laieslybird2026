@@ -71,7 +71,7 @@ export default function Videos() {
     setCurrentPage(1)
   }
 
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybird.com"
   const videoJsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",

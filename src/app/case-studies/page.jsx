@@ -10,7 +10,7 @@ import Script from "next/script"
 import { CASE_STUDIES } from "@/data/resources/case-studies"
 
 export default function CaseStudies() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybird.com"
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",

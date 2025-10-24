@@ -4,7 +4,7 @@ const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com"
 const smtpPort = Number(process.env.SMTP_PORT || 465)
 const smtpUser = process.env.SMTP_USER
 const smtpPass = process.env.SMTP_PASS
-const fromEmail = process.env.EMAIL_FROM || "LaieslyBird <no-reply@example.com>"
+const fromEmail = process.env.EMAIL_FROM || "LaieslyBird <no-reply@laieslybird@gmail.com>"
 
 export function getTransporter() {
   if (!smtpUser || !smtpPass) {

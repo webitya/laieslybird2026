@@ -98,7 +98,7 @@ export default function Footer() {
             />
             <input
               type="email"
-              placeholder="you@example.com"
+              placeholder="yourmail@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

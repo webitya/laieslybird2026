@@ -83,7 +83,7 @@ export default function SubscribeModal({ open, onClose }) {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder="yourmail@gmail.com"
             type="email"
             required
             className="rounded-md border border-purple-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none"

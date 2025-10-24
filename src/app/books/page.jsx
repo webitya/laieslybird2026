@@ -73,7 +73,7 @@ export default function Books() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybird.com"
   const itemList = {
     "@context": "https://schema.org",
     "@type": "ItemList",

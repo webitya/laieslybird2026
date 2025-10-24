@@ -13,7 +13,7 @@ export const metadata = {
 }
 
 export default async function CareersPage() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybid.com"
   const breadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

@@ -8,7 +8,7 @@ import Footer from "@/components/navigation/footer"
 export const dynamic = "force-dynamic"
 
 const siteName = "LaieslyBird"
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybird.com"
 const brandEmail = "laieslybird@gmail.com"
 
 export const metadata = {

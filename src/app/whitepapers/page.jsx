@@ -10,7 +10,7 @@ import Script from "next/script"
 import { WHITEPAPERS } from "@/data/resources/whitepapers"
 
 export default function Whitepapers() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybird.com"
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",

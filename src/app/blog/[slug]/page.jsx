@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic"
 export const revalidate = 0
 
 export async function generateMetadata({ params }) {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://.com"
   const post = BLOG_POSTS.find((p) => p.slug === params.slug)
   if (!post) return { title: "Not found" }
   const title = post.title
@@ -26,7 +26,7 @@ export default async function BlogPost({ params }) {
   const post = BLOG_POSTS.find((p) => p.slug === params.slug)
   if (!post) return notFound()
 
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybird.com"
   const breadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

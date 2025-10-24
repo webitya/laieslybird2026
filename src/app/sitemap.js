@@ -5,7 +5,7 @@ import { VIDEOS } from "@/data/videos/videos"
 import { books } from "@/data/books/books"
 
 export default async function sitemap() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybird.com"
   const staticPages = [
     { path: "", priority: 1.0, changeFrequency: "weekly" },
     { path: "about", priority: 0.7, changeFrequency: "monthly" },

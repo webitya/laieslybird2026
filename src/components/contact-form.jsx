@@ -13,7 +13,7 @@ export default function ContactForm() {
         type="email"
         name="email"
         required
-        placeholder="you@example.com"
+        placeholder="youremail@gmail.com"
         className="w-full rounded-md border border-purple-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none"
         aria-label="Email"
       />

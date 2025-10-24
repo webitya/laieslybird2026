@@ -13,7 +13,7 @@ export const metadata = {
 }
 
 export default async function ContactPage() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://laieslybird.com"
   const contactJsonLd = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
