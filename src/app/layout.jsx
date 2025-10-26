@@ -15,7 +15,8 @@ export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     template: "%s | LaieslyBird",
-    default: "LaieslyBird — CEO & Co-Founder Roadmaps, Tutorials, PDFs, Case Studies",
+    default:
+      "LaieslyBird — CEO & Co-Founder Roadmaps, Tutorials, PDFs, Case Studies",
   },
   description:
     "LaieslyBird provides CEO and Co-Founder roadmaps, video tutorials, PDF books, case studies, whitepapers, and SEO-friendly insights to accelerate your leadership journey.",
@@ -63,7 +64,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* ✅ Microsoft Clarity Tracking Script */}
+        {/* ✅ Google Analytics (GA4) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-4GMZ9DEBFC"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-4GMZ9DEBFC');
+          `}
+        </Script>
+
+        {/* ✅ Microsoft Clarity Tracking */}
         <Script id="microsoft-clarity" strategy="afterInteractive">
           {`
             (function(c,l,a,r,i,t,y){
