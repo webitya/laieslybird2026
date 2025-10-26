@@ -15,22 +15,24 @@ export const metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     template: "%s | LaieslyBird",
-    default: "LaieslyBird — CEO & Co‑Founder Roadmaps, Tutorials, PDFs, Case Studies",
+    default: "LaieslyBird — CEO & Co-Founder Roadmaps, Tutorials, PDFs, Case Studies",
   },
   description:
-    "LaieslyBird provides CEO and Co‑Founder roadmaps, video tutorials, PDF books, case studies, whitepapers, and SEO‑friendly insights to accelerate your leadership journey.",
+    "LaieslyBird provides CEO and Co-Founder roadmaps, video tutorials, PDF books, case studies, whitepapers, and SEO-friendly insights to accelerate your leadership journey.",
   alternates: { canonical: siteUrl },
   openGraph: {
-    title: "LaieslyBird — CEO & Co‑Founder Roadmaps",
-    description: "Roadmaps, tutorials, PDFs, case studies, whitepapers, and blogs for CEOs & Co‑Founders.",
+    title: "LaieslyBird — CEO & Co-Founder Roadmaps",
+    description:
+      "Roadmaps, tutorials, PDFs, case studies, whitepapers, and blogs for CEOs & Co-Founders.",
     url: siteUrl,
     siteName: siteName,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "LaieslyBird — CEO & Co‑Founder Roadmaps",
-    description: "Roadmaps, tutorials, PDFs, case studies, whitepapers, and blogs for CEOs & Co‑Founders.",
+    title: "LaieslyBird — CEO & Co-Founder Roadmaps",
+    description:
+      "Roadmaps, tutorials, PDFs, case studies, whitepapers, and blogs for CEOs & Co-Founders.",
   },
   robots: { index: true, follow: true },
 }
@@ -43,10 +45,9 @@ export default function RootLayout({ children }) {
     url: siteUrl,
     email: brandEmail,
     logo: `${siteUrl}/placeholder-logo.png`,
-    sameAs: [
-      // add your social links here for better E-E-A-T
-    ],
+    sameAs: [],
   }
+
   const webSiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -61,18 +62,26 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+        {/* ✅ Microsoft Clarity Tracking Script */}
+        <Script id="microsoft-clarity" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "twcuvhzmln");
+          `}
+        </Script>
+      </head>
+
       <body className="min-h-screen bg-purple-50 text-gray-900 antialiased">
         <VisitorTracker />
-
-        {/* Header */}
-      <Navbar/>
-
+        <Navbar />
         <main>{children}</main>
+        <Footer />
 
-        {/* Footer */}
-       <Footer/>
-
-        {/* JSON-LD for Organization & WebSite */}
+        {/* ✅ Structured Data Scripts */}
         <Script
           id="ld-org"
           type="application/ld+json"

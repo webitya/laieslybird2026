@@ -88,11 +88,11 @@ export default async function Home({ searchParams }) {
       <section className="">
         <HomeFeaturedResources />
       </section>
-      <section className="grid gap-8 md:grid-cols-2">
+      {/* <section className="grid gap-8 md:grid-cols-2">
         <HomeSubscribe />
         <HomeContact />
-      </section>
-      <section className="mt-12">
+      </section> */}
+      <section className="">
         <HomeTestimonials />
       </section>
       <Script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
