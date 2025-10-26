@@ -96,7 +96,7 @@ export default function RootLayout({ children }) {
         <main>{children}</main>
         <Footer />
 
-        {/* ✅ Structured Data Scripts */}
+        {/* ✅ Structured Data (SEO JSON-LD) */}
         <Script
           id="ld-org"
           type="application/ld+json"
