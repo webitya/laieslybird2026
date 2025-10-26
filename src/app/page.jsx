@@ -67,7 +67,7 @@ export default async function Home({ searchParams }) {
   return (
     <>
       <HomeHero />
-      <div className="mt-3 space-y-3">
+      <div className="">
         {subscribed && (
           <p className="rounded-md bg-green-50 px-3 py-2 text-green-700">
             Thanks for subscribing! Check your email for a welcome message.
@@ -79,16 +79,16 @@ export default async function Home({ searchParams }) {
           </p>
         )}
       </div>
-      <section className="mt-10">
+      <section className="">
         <HomeFeatures />
       </section>
-      <section className="mt-10">
+      <section className="">
         <HomeRoadmaps />
       </section>
-      <section className="mt-10">
+      <section className="">
         <HomeFeaturedResources />
       </section>
-      <section className="mt-12 grid gap-8 md:grid-cols-2">
+      <section className="grid gap-8 md:grid-cols-2">
         <HomeSubscribe />
         <HomeContact />
       </section>

@@ -108,7 +108,7 @@ export default function HomeHero() {
 
               {/* Main Heading */}
               <motion.div variants={itemVariants}>
-                <h1 className="text-balance bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-3xl sm:text-3xl lg:text-4xl xl:text-4xl font-black text-transparent leading-tight hover:from-purple-100 hover:via-white hover:to-cyan-100 transition-all duration-500">
+                <h1 className="text-balance bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-3xl sm:text-3xl lg:text-3xl xl:text-4xl font-black text-transparent leading-tight hover:from-purple-100 hover:via-white hover:to-cyan-100 transition-all duration-500">
                   Transform Vision Into
                   <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 hover:from-purple-300 hover:via-pink-300 hover:to-cyan-300 transition-all duration-500">
                     Unstoppable Growth

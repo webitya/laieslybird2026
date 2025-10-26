@@ -7,6 +7,7 @@ export default function CursorWaterRipple() {
   const particlesRef = useRef([])
   const mouseRef = useRef({ x: 0, y: 0 })
   const rippleRef = useRef([])
+  const heroSectionRef = useRef(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -15,6 +16,8 @@ export default function CursorWaterRipple() {
     const ctx = canvas.getContext("2d")
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
+
+    heroSectionRef.current = document.querySelector("section")
 
     class WaterRipple {
       constructor(x, y, intensity = 1) {
@@ -102,8 +105,17 @@ export default function CursorWaterRipple() {
       }
     }
 
+    const isInHeroSection = (x, y) => {
+      const hero = heroSectionRef.current
+      if (!hero) return false
+      const rect = hero.getBoundingClientRect()
+      return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom
+    }
+
     const handleMouseMove = (e) => {
       mouseRef.current = { x: e.clientX, y: e.clientY }
+
+      if (!isInHeroSection(e.clientX, e.clientY)) return
 
       // Check if hovering over button
       const buttons = document.querySelectorAll("button, a[role='button']")
@@ -126,6 +138,8 @@ export default function CursorWaterRipple() {
     }
 
     const handleClick = (e) => {
+      if (!isInHeroSection(e.clientX, e.clientY)) return
+
       const x = e.clientX
       const y = e.clientY
 
